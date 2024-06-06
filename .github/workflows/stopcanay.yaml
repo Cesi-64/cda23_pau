@@ -1,0 +1,22 @@
+name: Stop Canary
+
+on:
+    workflow_dispatch
+
+jobs:
+    StopCana:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Azure Login
+              uses: Azure/login@v1
+              with:
+                creds: ${{ secrets.AZURE_CRED }}
+
+            - name: Azure CLI
+              uses: azure/CLI@v1
+              with:
+                azcliversion: 2.30.0
+                inlineScript: |
+                    az vm stop --resource-group overkill --name overkill
+                    az vm deallocate --resource-group overkill --name overkill
